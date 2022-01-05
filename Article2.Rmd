@@ -1,0 +1,61 @@
+---
+title: "Rise of Rayo Vallecano"
+output: 
+  html_document:
+    theme: yeti
+    toc: TRUE
+    toc_float: TRUE
+    code_folding: hide
+---
+
+All who follows football has heard of the two big clubs of Madrid, Real Madrid CF and 
+Atletico Madrid and why not they are historically they rank among top clubs not only in
+Spain but all of Europe. Madrid as a city has most number of european champions in terms of 
+football thanks to the exploits of the Real Madrid and Atletico Madrid have made it to three
+finals albeit lost in all of them. There is a huge gap in between two historic Madrid clubs
+and the third one in Rayo Vallecano. Founded in 1924, Rayo Vallecano abbreviated as Rayo play at their modest 14,000 seater stadium, historically they played their majority of football in Segunda Divison (Second League in Spanish Football Pyramid). But this season they find themselves
+in competition for European places in La Liga for various reasons.
+
+![](https://icdn.football-espana.net/wp-content/uploads/2021/10/rayo-vallecano-v-fc-barcelona-la-liga-santander-1.jpg)
+
+1. Return of El Tigre
+
+Radamel Falcao or 'El Tigre' as he is affectionately called returned to La Liga from Galatasaray
+by signing for Rayo. Former Atletico Madrid star now aged 35 is showing so signs of slowing out as he is carrying Rayo's attack along with 29 year old Alvaro Garcia his addition to the squad is one of the major reasons behind Rayo's current position
+
+```{r include = FALSE}
+
+require(tidyverse)
+library('worldfootballR')
+library(reshape2)
+```
+
+```{r}
+rayo <- understat_team_players_stats("https://understat.com/team/Rayo_Vallecano/2021")
+
+rayo %>%  
+  select(player_name, time, goals, assists) %>%
+  head(3)
+
+```
+
+2. Attacking Style of Play
+
+La liga has the lowest no of goals and assists in top five European leagues and this is due to many teams trying to play a low block and look for counter-attacking opportunities using with Diego Simeone's achieve great success with Atletico Madrid on a modest budget. Teams like cadiz and Getafe are known to take this style to extreme. Many promoted sides prefer to use this system, but Rayo Vallecano has differed from this setup, their attacking output lies among teams like Real Betis, Real Madrid and Barcelona and other regulars in La Liga's top bracket. They truly are a anomaly in this seasons league table.
+
+
+``` {r}
+laliga_2021_shooting <- get_season_team_stats(country = "ESP", gender = "M", season_end_year = "2022", tier = "1st", stat_type = "shooting")
+
+laliga_2021_shooting %>% 
+  head(20) %>%
+  arrange(Sh_per_90_Standard) %>%
+  ggplot(aes(x = Squad, y = Sh_per_90_Standard)) + geom_point(color = "red") + geom_line(group = 1, color = "blue") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) + geom_hline(yintercept = 12, linetype = "dashed", color = "red")
+
+laliga_2021_shooting %>% 
+  head(20) %>%
+  arrange(SoT_per_90_Standard) %>%
+  ggplot(aes(x = Squad, y = SoT_per_90_Standard)) + geom_point(color = "red") + geom_line(group = 1, color = "blue") + theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+```
+With 30 points already in this season's tally, Rayo Vallecano one of the contenders of relgation know find themselves fighting for european places whether they can maintain momentum this season and in future would be interesting to see in future.
