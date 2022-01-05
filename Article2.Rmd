@@ -27,14 +27,19 @@ by signing for Rayo. Former Atletico Madrid star now aged 35 is showing so signs
 require(tidyverse)
 library('worldfootballR')
 library(reshape2)
+library(gridExtra)
 ```
 
 ```{r}
 rayo <- understat_team_players_stats("https://understat.com/team/Rayo_Vallecano/2021")
 
-rayo %>%  
+rayo<-rayo %>%  
   select(player_name, time, goals, assists) %>%
   head(3)
+
+png("test.png", height = 50*nrow(rayo), width = 75*ncol(rayo))
+grid.table(rayo)
+dev.off()
 
 ```
 
@@ -58,10 +63,3 @@ laliga_2021_shooting %>%
 
 ```
 With 30 points already in this season's tally, Rayo Vallecano one of the contenders of relgation know find themselves fighting for european places whether they can maintain momentum this season and in future would be interesting to see in future.
-
-``` {r}
-
-un<- data("BJsales")
-un
-
-```
