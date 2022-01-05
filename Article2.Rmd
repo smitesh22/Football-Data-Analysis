@@ -7,8 +7,6 @@ output:
     toc_float: TRUE
     code_folding: hide
 ---
-
-
 All who follows football has heard of the two big clubs of Madrid, Real Madrid CF and 
 Atletico Madrid and why not they are historically they rank among top clubs not only in
 Spain but all of Europe. Madrid as a city has most number of european champions in terms of 
@@ -60,3 +58,10 @@ laliga_2021_shooting %>%
 
 ```
 With 30 points already in this season's tally, Rayo Vallecano one of the contenders of relgation know find themselves fighting for european places whether they can maintain momentum this season and in future would be interesting to see in future.
+
+``` {r}
+
+un<- data("BJsales")
+un
+
+```
