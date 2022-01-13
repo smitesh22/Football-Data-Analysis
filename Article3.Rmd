@@ -1,0 +1,30 @@
+---
+title: "La Liga Mid-Season Review"
+output: 
+  html_document:
+    theme: yeti
+    toc: TRUE
+    toc_float: TRUE
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r }
+library(worldfootballR)
+require(tidyverse)
+library(rvest)
+
+url <- "https://understat.com/league/La_liga"
+
+league_table <- url %>%
+  read_html() %>%
+  html_nodes(xpath = '/html/body/div[1]/div[3]/div[3]/div/div[2]/div/table') %>%
+  html_table()
+
+league_table[]
+
+```
