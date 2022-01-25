@@ -16,15 +16,49 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r }
 library(worldfootballR)
 require(tidyverse)
-library(rvest)
 
-url <- "https://understat.com/league/La_liga"
 
-league_table <- url %>%
-  read_html() %>%
-  html_nodes(xpath = '/html/body/div[1]/div[3]/div[3]/div/div[2]/div/table') %>%
-  html_table()
+mo_shooting <- fb_player_season_stats("https://fbref.com/en/players/7111d552/Vinicius-Junior", stat_type = 'gca')
 
-league_table[]
+teams <- fb_teams_urls("https://fbref.com/en/comps/12/La-Liga-Stats")
+
+players <- vector()
+
+
+for (team in teams){
+  temp = fb_player_urls(team)
+  players = append(players, temp)
+  
+}
+
+chances_per_90 <- vector()
+
+for (player in players){
+
+  player_data <- fb_player_season_stats(player, stat_type = 'gca')
+  
+  temp <- player_data %>%
+    filter(Season == "2021-2022", Comp == "1. La Liga") %>%
+    select(player_name, GCA90_GCA)
+  
+  append(chances_per_90, temp)
+}
+
+
+```
+```{r}
+chances_per_90 <- vector()
+
+for (player in players){
+
+  player_data <- fb_player_season_stats(player, stat_type = 'gca')
+  
+  temp <- player_data %>%
+    filter(Season == "2021-2022", Comp == "1. La Liga") %>%
+    select(player_name, GCA90_GCA)
+  
+  append(chances_per_90, temp)
+}
+
 
 ```
