@@ -15,6 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r }
 library(worldfootballR)
+library(forcats)
 require(tidyverse)
 
 teams_results <- understat_league_match_results('La liga', 2021) %>%
@@ -75,8 +76,29 @@ colnames(out) <- c('team', 'points', 'expected_points')
 
 
 ```{r}
+underperformers <- out %>% 
+  mutate(difference = points - expected_points) %>%
+  arrange(difference)%>%
+  head(5) %>%
+  mutate(difference = abs(difference)) %>%
+  arrange()
 
-out %>% 
-  mutate(difference = out$points - out$expected_points) %>% 
-  sort(out$difference)
+ggplot(underperformers, aes(x= fct_inorder(team), y = difference)) +
+  geom_line(group=1, color = "blue") + 
+  xlab('Teams') + ylab('Difference in Points') +annotate("text",x = 2, y = 30, label = "Underperforming teams by points")
+```
+
+
+```{r}
+
+overperformers <- out %>% 
+  mutate(difference = expected_points - points) %>%
+  arrange(difference)%>%
+  head(5) %>%
+  arrange(desc(difference))
+
+ggplot(overperformers, aes(x= fct_inorder(team), y = difference)) +
+  geom_line(group=1, color = "blue") + 
+  xlab('Teams') + ylab('Difference in Points') +annotate("text",x = 2, y = 30, label = "Overperforming teams by points")
+
 ```
