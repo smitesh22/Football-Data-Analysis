@@ -17,48 +17,68 @@ knitr::opts_chunk$set(echo = TRUE)
 library(worldfootballR)
 require(tidyverse)
 
+teams_results <- understat_league_match_results('La liga', 2021) %>%
+  select(match_id, home_team, away_team, home_goals, away_goals, home_xG, away_xG)
 
-mo_shooting <- fb_player_season_stats("https://fbref.com/en/players/7111d552/Vinicius-Junior", stat_type = 'gca')
+teams <- understat_league_match_results('La liga', 2021) %>%
+  select(home_team)
 
-teams <- fb_teams_urls("https://fbref.com/en/comps/12/La-Liga-Stats")
-
-players <- vector()
+teams <- unique(teams)
 
 
-for (team in teams){
-  temp = fb_player_urls(team)
-  players = append(players, temp)
+out <- data.frame(
+    team = character(),
+    points = numeric(),
+    expected_points = numeric()
+)
+
+for (i in 1:nrow(teams)) {
+  points <- 0
+  for(j in 1:nrow(teams_results)){
+    
+    if(teams$home_team[i] == teams_results$home_team[j]){
+      if (teams_results$home_goals[j] > teams_results$away_goals[j])
+        points <- points+3
+      else if (teams_results$home_goals[j] == teams_results$away_goals[j])
+        points <- points + 1
+      }
+  }
   
+  for(j in 1:nrow(teams_results)){
+    
+    if(teams$home_team[i] == teams_results$away_team[j]){
+      if (teams_results$away_goals[j] > teams_results$home_goals[j])
+        points <- points+3
+      else if (teams_results$away_goals[j] == teams_results$home_goals[j])
+        points <- points + 1
+      }
+  }
+  
+  expected_point <- 0
+  
+  for(j in 1:nrow(teams_results)){
+    
+    if(teams$home_team[i] == teams_results$home_team[j]){
+      if (teams_results$home_goals[j] > teams_results$away_goals[j])
+        points <- points+3
+      else if (teams_results$home_goals[j] == teams_results$away_goals[j])
+        points <- points + 1
+      }
+  }
+  
+  
+  out <- rbind(out,new <- data.frame(teams$home_team[i], points, 0))
 }
-
-chances_per_90 <- vector()
-
-for (player in players){
-
-  player_data <- fb_player_season_stats(player, stat_type = 'gca')
   
-  temp <- player_data %>%
-    filter(Season == "2021-2022", Comp == "1. La Liga") %>%
-    select(player_name, GCA90_GCA)
-  
-  append(chances_per_90, temp)
-}
-
-
-```
-```{r}
-chances_per_90 <- vector()
-
-for (player in players){
-
-  player_data <- fb_player_season_stats(player, stat_type = 'gca')
-  
-  temp <- player_data %>%
-    filter(Season == "2021-2022", Comp == "1. La Liga") %>%
-    select(player_name, GCA90_GCA)
-  
-  append(chances_per_90, temp)
-}
-
+  # points <- 0
+  # 
+  # for (match_id in teams_results){
+  #   if (team == teams_results$home_team){
+  #     
+  #  }
+  # 
+  # new_row <- c(home_team, points, 0)
+  # out<- rbind(out, new_row)
+  #}
 
 ```
