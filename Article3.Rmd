@@ -34,6 +34,8 @@ out <- data.frame(
 
 for (i in 1:nrow(teams)) {
   points <- 0
+  expected_points <- 0
+  
   for(j in 1:nrow(teams_results)){
     
     if(teams$home_team[i] == teams_results$home_team[j]){
@@ -41,44 +43,40 @@ for (i in 1:nrow(teams)) {
         points <- points+3
       else if (teams_results$home_goals[j] == teams_results$away_goals[j])
         points <- points + 1
-      }
-  }
-  
-  for(j in 1:nrow(teams_results)){
+    }
     
     if(teams$home_team[i] == teams_results$away_team[j]){
       if (teams_results$away_goals[j] > teams_results$home_goals[j])
         points <- points+3
       else if (teams_results$away_goals[j] == teams_results$home_goals[j])
         points <- points + 1
-      }
-  }
-  
-  expected_point <- 0
-  
-  for(j in 1:nrow(teams_results)){
+    }
     
     if(teams$home_team[i] == teams_results$home_team[j]){
-      if (teams_results$home_goals[j] > teams_results$away_goals[j])
-        points <- points+3
-      else if (teams_results$home_goals[j] == teams_results$away_goals[j])
-        points <- points + 1
+      if (teams_results$home_xG[j] > teams_results$away_xG[j])
+        expected_points <- expected_points+3
+      else if (teams_results$home_xG[j] == teams_results$away_xG[j])
+        expected_points <- expected_points + 1
+    }
+    
+    if(teams$home_team[i] == teams_results$away_team[j]){
+      if (teams_results$away_xG[j] > teams_results$home_xG[j])
+        expected_points <- expected_points+3
+      else if (teams_results$away_xG[j] == teams_results$home_xG[j])
+        expected_points <- expected_points + 1
       }
   }
-  
-  
-  out <- rbind(out,new <- data.frame(teams$home_team[i], points, 0))
+  out <- rbind(out,new <- data.frame(teams$home_team[i], points, expected_points))
 }
-  
-  # points <- 0
-  # 
-  # for (match_id in teams_results){
-  #   if (team == teams_results$home_team){
-  #     
-  #  }
-  # 
-  # new_row <- c(home_team, points, 0)
-  # out<- rbind(out, new_row)
-  #}
 
+colnames(out) <- c('team', 'points', 'expected_points')
+
+```
+
+
+```{r}
+
+out %>% 
+  mutate(difference = out$points - out$expected_points) %>% 
+  sort(out$difference)
 ```
