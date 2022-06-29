@@ -81,6 +81,7 @@ underperformers <- out %>%
   arrange(difference)%>%
   head(5) %>%
   mutate(difference = abs(difference)) %>%
+  
   arrange()
 
 ggplot(underperformers, aes(x= fct_inorder(team), y = difference)) +
