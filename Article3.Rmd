@@ -89,7 +89,6 @@ ggplot(underperformers, aes(x= fct_inorder(team), y = difference)) +
 ```
 
 
-
 ```{r}
 
 overperformers <- out %>% 
