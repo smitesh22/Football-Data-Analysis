@@ -82,7 +82,7 @@ underperformers <- out %>%
   head(5) %>%
   mutate(difference = abs(difference)) %>%
   arrange()
-
+ 
 ggplot(underperformers, aes(x= fct_inorder(team), y = difference)) +
   geom_line(group=1, color = "blue") + 
   xlab('Teams') + ylab('Difference in Points') +annotate("text",x = 2, y = 30, label = "Underperforming teams by points")
