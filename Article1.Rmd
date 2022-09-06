@@ -83,5 +83,5 @@ vini_stats %>%
 In previous 20/21 La liga season, Atletico Madrid had a similar start to
 their campaign thanks to players like Luis Suarez and Marcos Llorente
 outperforming their xG which made them title favorites in first half of
-the season. Whelther Real can sustain this results is to be seen in
+the season. Whether Real can sustain this results is to be seen in
 future.
